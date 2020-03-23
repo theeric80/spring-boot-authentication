@@ -1,20 +1,19 @@
 package org.theeric.auth.user.model;
 
-public class UserSession {
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import org.theeric.auth.core.model.IdentityIdEntity;
 
-    private Long id;
+@Entity
+@Table(name = "user_session")
+public class UserSession extends IdentityIdEntity<Long> {
 
     private String token;
 
     private User user;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getToken() {
         return token;
@@ -24,6 +23,8 @@ public class UserSession {
         this.token = token;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
     public User getUser() {
         return user;
     }
