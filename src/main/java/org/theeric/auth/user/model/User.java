@@ -1,10 +1,16 @@
 package org.theeric.auth.user.model;
 
-public class User {
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Table;
+import org.theeric.auth.core.model.IdentityIdEntity;
 
-    private Long id;
+@Entity
+@Table(name = "user")
+public class User extends IdentityIdEntity<Long> {
 
-    private String email;
+    private String reference;
 
     private String password;
 
@@ -12,20 +18,12 @@ public class User {
 
     private UserRole role;
 
-    public Long getId() {
-        return id;
+    public String getReference() {
+        return reference;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 
     public String getPassword() {
@@ -44,6 +42,7 @@ public class User {
         this.username = username;
     }
 
+    @Enumerated(EnumType.STRING)
     public UserRole getRole() {
         return role;
     }
