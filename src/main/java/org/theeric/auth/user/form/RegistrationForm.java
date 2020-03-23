@@ -1,19 +1,27 @@
 package org.theeric.auth.user.form;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public class RegistrationForm {
 
-    private String email;
+    @NotBlank
+    @Size(max = 256)
+    private String reference;
 
+    @NotBlank
+    @Size(max = 20)
     private String password;
 
+    @Size(max = 128)
     private String username;
 
-    public String getEmail() {
-        return email;
+    public String getReference() {
+        return reference;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 
     public String getPassword() {
