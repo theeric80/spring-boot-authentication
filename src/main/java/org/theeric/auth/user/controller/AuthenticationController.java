@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.theeric.auth.core.web.exception.ClientErrorException;
+import org.theeric.auth.dto.AuthToken;
+import org.theeric.auth.user.form.LoginForm;
 import org.theeric.auth.user.form.RegistrationForm;
 import org.theeric.auth.user.service.AuthenticationService;
 
@@ -27,8 +28,11 @@ public class AuthenticationController {
         authenticationService.register(form);
     }
 
-    public void login() {
-        throw new ClientErrorException(HttpStatus.BAD_REQUEST);
+    @PostMapping(path = "/login", //
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public AuthToken login(@Valid @RequestBody LoginForm form) {
+        return authenticationService.login(form);
     }
 
     public void logout() {}
