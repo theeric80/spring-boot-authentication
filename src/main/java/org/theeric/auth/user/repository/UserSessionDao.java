@@ -3,6 +3,7 @@ package org.theeric.auth.user.repository;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import org.theeric.auth.dto.UserContextDTO;
@@ -20,5 +21,10 @@ public interface UserSessionDao extends JpaRepository<UserSession, Long> {
     @EntityGraph(value = "session.detail")
     @Query("SELECT s FROM UserSession s WHERE s.token = :token")
     Optional<UserSession> findDetailByToken(String token);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM UserSession s WHERE s.token = :token")
+    void deleteByToken(String token);
 
 }

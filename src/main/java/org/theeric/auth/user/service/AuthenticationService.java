@@ -63,6 +63,11 @@ public class AuthenticationService {
         return new AuthToken(session.getToken());
     }
 
+    @Transactional
+    public void logout(String token) {
+        userSessionDao.deleteByToken(token);
+    }
+
     private UserSession createUserSession(User user) {
         final UserSession s = new UserSession();
         s.setToken(generateToken());
