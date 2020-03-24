@@ -4,7 +4,6 @@ import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,9 +41,9 @@ public class AuthenticationService {
 
     @Transactional
     public User register(RegistrationForm form) {
-        final Optional<User> user = userService.find(form.getReference());
+        final Optional<User> user = userService.findByRef(form.getReference());
         if (user.isPresent()) {
-            throw new ClientErrorException(HttpStatus.CONFLICT, "User already exists");
+            throw ClientErrorException.conflict("User already exists");
         } else {
             form.setPassword(hashpw(form.getPassword()));
             return userService.create(form);
@@ -53,11 +52,11 @@ public class AuthenticationService {
 
     @Transactional
     public AuthToken login(LoginForm form) {
-        final User user = userService.find(form.getReference()) //
-                .orElseThrow(() -> new ClientErrorException(HttpStatus.NOT_FOUND, "User not found"));
+        final User user = userService.findByRef(form.getReference()) //
+                .orElseThrow(() -> ClientErrorException.notFound("User not found"));
 
         if (!checkpw(form.getPassword(), user.getPassword())) {
-            throw new ClientErrorException(HttpStatus.UNAUTHORIZED, "Incorrect username or password");
+            throw ClientErrorException.unauthorized("Incorrect username or password");
         }
 
         final UserSession session = createUserSession(user);

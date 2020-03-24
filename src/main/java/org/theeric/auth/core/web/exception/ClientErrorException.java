@@ -27,4 +27,28 @@ public class ClientErrorException extends WebApplicationException {
         super(status, reason, cause);
     }
 
+    static public ClientErrorException badRequest(String reason) {
+        return new ClientErrorException(HttpStatus.BAD_REQUEST, reason);
+    }
+
+    static public ClientErrorException unauthorized(String reason) {
+        return new ClientErrorException(HttpStatus.UNAUTHORIZED, reason);
+    }
+
+    static public ClientErrorException forbidden(String reason) {
+        return new ClientErrorException(HttpStatus.FORBIDDEN, reason);
+    }
+
+    static public ClientErrorException notFound(String reason) {
+        return new ClientErrorException(HttpStatus.NOT_FOUND, reason);
+    }
+
+    static public ClientErrorException conflict(String reason) {
+        return new ClientErrorException(HttpStatus.CONFLICT, reason);
+    }
+
+    static public ClientErrorException tooManyRequests(String reason) {
+        return new ClientErrorException(HttpStatus.TOO_MANY_REQUESTS, reason);
+    }
+
 }

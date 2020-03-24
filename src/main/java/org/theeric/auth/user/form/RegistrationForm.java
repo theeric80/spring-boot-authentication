@@ -14,7 +14,7 @@ public class RegistrationForm {
     private String password;
 
     @Size(max = 128)
-    private String username;
+    private String username = "";
 
     public String getReference() {
         return reference;
