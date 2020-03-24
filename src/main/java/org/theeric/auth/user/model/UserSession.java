@@ -4,9 +4,17 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedEntityGraphs;
 import javax.persistence.Table;
 import org.theeric.auth.core.model.IdentityIdEntity;
 
+@NamedEntityGraphs({ //
+        @NamedEntityGraph(name = "session.detail", attributeNodes = { //
+                @NamedAttributeNode("user") //
+        }) //
+})
 @Entity
 @Table(name = "user_session")
 public class UserSession extends IdentityIdEntity<Long> {

@@ -1,6 +1,7 @@
 package org.theeric.auth.user.repository;
 
 import java.util.Optional;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,5 +16,9 @@ public interface UserSessionDao extends JpaRepository<UserSession, Long> {
             " JOIN s.user u " + //
             "WHERE s.token = :token")
     Optional<UserContextDTO> findUserContextByToken(String token);
+
+    @EntityGraph(value = "session.detail")
+    @Query("SELECT s FROM UserSession s WHERE s.token = :token")
+    Optional<UserSession> findDetailByToken(String token);
 
 }
