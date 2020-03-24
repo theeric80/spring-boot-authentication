@@ -9,9 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.theeric.auth.core.web.authentication.Token;
 import org.theeric.auth.core.web.authentication.TokenDetails;
 import org.theeric.auth.core.web.authentication.TokenDetailsService;
-import org.theeric.auth.user.model.User;
+import org.theeric.auth.dto.UserContextDTO;
 import org.theeric.auth.user.model.UserRole;
-import org.theeric.auth.user.model.UserSession;
 import org.theeric.auth.user.repository.UserSessionDao;
 import com.google.common.collect.ImmutableList;
 
@@ -27,12 +26,10 @@ public class TokenDetailsServiceImpl implements TokenDetailsService {
     @Transactional
     @Override
     public TokenDetails loadTokenByCredential(String credential) {
-        final UserSession session = userSessionDao.findByToken(credential) //
+        final UserContextDTO ctx = userSessionDao.findUserContextByToken(credential) //
                 .orElseThrow(() -> new BadCredentialsException("Invalid token"));
 
-        // FIXME: N+1 query
-        final User user = session.getUser();
-        return buildToken(session.getToken(), user.getId(), user.getRole());
+        return buildToken(ctx.getToken(), ctx.getUserId(), ctx.getUserRole());
     }
 
     private Token buildToken(String token, Long userId, UserRole role) {
