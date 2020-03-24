@@ -1,6 +1,8 @@
 package org.theeric.auth.user.repository;
 
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -11,6 +13,8 @@ import org.theeric.auth.user.model.UserSession;
 
 @Transactional(readOnly = true)
 public interface UserSessionDao extends JpaRepository<UserSession, Long> {
+
+    Page<UserSession> findAllByUserId(Long userId, Pageable pageable);
 
     @Query("SELECT new org.theeric.auth.dto.UserContextDTO(u.id, u.role, s.token) " + //
             " FROM UserSession s " + //
