@@ -15,6 +15,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.theeric.auth.core.context.UserContextHolder;
 
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
@@ -80,10 +81,18 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     protected void successfulAuthentication(Authentication authResult) {
         SecurityContextHolder.getContext().setAuthentication(authResult);
+        UserContextHolder.clearContext();
+
+        if (authResult != null) {
+            final TokenDetails details = (TokenDetails) authResult.getPrincipal();
+            UserContextHolder.getContext().setUserId(Long.valueOf(details.getSubject()));
+            UserContextHolder.getContext().setToken(details.getToken());
+        }
     }
 
     protected void unsuccessfulAuthentication(AuthenticationException failed) {
         SecurityContextHolder.clearContext();
+        UserContextHolder.clearContext();
     }
 
 }
