@@ -6,6 +6,6 @@ CREATE TABLE IF NOT EXISTS `auth`.`user_session` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `version` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `ix_user_session_user_id` (`user_id`),
+  KEY `ix_user_session_user_id_created_at` (`user_id`, `created_at`),
   UNIQUE KEY `ux_user_session_token` (`token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
