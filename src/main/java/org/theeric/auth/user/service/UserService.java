@@ -4,6 +4,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.theeric.auth.core.service.AbstractService;
 import org.theeric.auth.core.web.exception.ClientErrorException;
 import org.theeric.auth.user.form.RegistrationForm;
 import org.theeric.auth.user.form.UserForm;
@@ -12,7 +13,7 @@ import org.theeric.auth.user.model.UserRole;
 import org.theeric.auth.user.repository.UserDao;
 
 @Service
-public class UserService {
+public class UserService extends AbstractService {
 
     private UserDao userDao;
 

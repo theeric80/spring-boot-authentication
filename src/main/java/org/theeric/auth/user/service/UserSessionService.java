@@ -5,11 +5,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.theeric.auth.core.service.AbstractService;
 import org.theeric.auth.user.model.UserSession;
 import org.theeric.auth.user.repository.UserSessionDao;
 
 @Service
-public class UserSessionService {
+public class UserSessionService extends AbstractService {
 
     private UserSessionDao userSessionDao;
 

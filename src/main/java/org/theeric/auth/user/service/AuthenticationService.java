@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.theeric.auth.core.service.AbstractService;
 import org.theeric.auth.core.web.exception.ClientErrorException;
 import org.theeric.auth.dto.AuthToken;
 import org.theeric.auth.user.form.LoginForm;
@@ -16,7 +17,7 @@ import org.theeric.auth.user.model.UserSession;
 import org.theeric.auth.user.repository.UserSessionDao;
 
 @Service
-public class AuthenticationService {
+public class AuthenticationService extends AbstractService {
 
     private PasswordEncoder passwordEncoder;
 
