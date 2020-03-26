@@ -18,17 +18,18 @@ public class SortEditor extends PropertyEditorSupport {
 
         for (String order : StringUtils.split(text, ",")) {
             final String[] tokens = StringUtils.split(StringUtils.strip(order), ":");
-            if (tokens.length == 0) {
-                throw new IllegalArgumentException("Invalid sort");
-            }
 
-            final String property = tokens[0];
             if (tokens.length == 1) {
+                final String property = tokens[0];
                 orders.add(Order.asc(property));
 
             } else if (tokens.length == 2) {
+                final String property = tokens[0];
                 final String direction = tokens[1];
                 orders.add(new Order(Direction.fromString(direction), property));
+
+            } else {
+                throw new IllegalArgumentException("Invalid sort");
             }
         }
 
