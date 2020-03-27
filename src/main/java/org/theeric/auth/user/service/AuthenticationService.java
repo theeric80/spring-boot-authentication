@@ -47,7 +47,7 @@ public class AuthenticationService extends AbstractService {
             throw ClientErrorException.conflict("User already exists");
         } else {
             form.setPassword(hashpw(form.getPassword()));
-            return userService.create(form);
+            return userService.create(buildNewUser(form));
         }
     }
 
@@ -74,6 +74,14 @@ public class AuthenticationService extends AbstractService {
         s.setToken(generateToken());
         s.setUser(user);
         return userSessionDao.save(s);
+    }
+
+    private User buildNewUser(RegistrationForm form) {
+        final User u = new User();
+        u.setReference(form.getReference());
+        u.setPassword(form.getPassword());
+        u.setUsername(form.getUsername());
+        return u;
     }
 
     private String hashpw(String password) {

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.theeric.auth.core.service.AbstractService;
 import org.theeric.auth.core.web.exception.ClientErrorException;
-import org.theeric.auth.user.form.RegistrationForm;
 import org.theeric.auth.user.form.UserForm;
 import org.theeric.auth.user.model.User;
 import org.theeric.auth.user.model.UserRole;
@@ -23,11 +22,11 @@ public class UserService extends AbstractService {
     }
 
     @Transactional
-    public User create(RegistrationForm form) {
+    public User create(User user) {
         final User u = new User();
-        u.setReference(form.getReference());
-        u.setPassword(form.getPassword());
-        u.setUsername(Optional.ofNullable(form.getUsername()).orElse(""));
+        u.setReference(user.getReference());
+        u.setPassword(user.getPassword());
+        u.setUsername(Optional.ofNullable(user.getUsername()).orElse(""));
         u.setRole(UserRole.ROLE_USER);
         return userDao.save(u);
     }
