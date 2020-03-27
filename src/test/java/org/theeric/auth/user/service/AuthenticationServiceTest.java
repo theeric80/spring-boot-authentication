@@ -142,4 +142,13 @@ public class AuthenticationServiceTest {
         assertThat(e.getStatus()).isEqualTo(HttpStatus.UNAUTHORIZED);
     }
 
+    @Test
+    public void whenlogoutOk_thenTokenShouldBeDeleted() {
+        final String expected = "token";
+
+        authenticationService.logout(expected);
+
+        verify(userSessionDao, times(1)).deleteByToken(expected);
+    }
+
 }
