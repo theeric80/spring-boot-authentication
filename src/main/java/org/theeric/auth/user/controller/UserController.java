@@ -26,7 +26,7 @@ public class UserController {
     public UserDTO getMe() {
         final Long id = UserContextHolder.getContext().getUserId();
         final User user = userService.findOrNotFound(id);
-        return new UserDTO(user, user.getReference());
+        return new UserDTO(user);
     }
 
     @PutMapping(path = "/me", //
@@ -34,7 +34,7 @@ public class UserController {
     public UserDTO updateMe(@Valid @RequestBody UserForm form) {
         final Long id = UserContextHolder.getContext().getUserId();
         final User user = userService.update(id, form);
-        return new UserDTO(user, user.getReference());
+        return new UserDTO(user);
     }
 
 }

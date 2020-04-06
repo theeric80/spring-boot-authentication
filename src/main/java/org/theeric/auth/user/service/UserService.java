@@ -24,9 +24,11 @@ public class UserService extends AbstractService {
     @Transactional
     public User create(User user) {
         final User u = new User();
-        u.setReference(user.getReference());
+        u.setUsername(user.getUsername());
         u.setPassword(user.getPassword());
-        u.setUsername(Optional.ofNullable(user.getUsername()).orElse(""));
+        u.setFirstname(Optional.ofNullable(user.getFirstname()).orElse(""));
+        u.setLastname(Optional.ofNullable(user.getLastname()).orElse(""));
+        u.setEmail(Optional.ofNullable(user.getEmail()).orElse(""));
         u.setRole(UserRole.ROLE_USER);
         return userDao.save(u);
     }
@@ -36,7 +38,9 @@ public class UserService extends AbstractService {
         final User user = find(id) //
                 .orElseThrow(() -> ClientErrorException.notFound("User not found"));
 
-        user.setUsername(form.getUsername());
+        user.setFirstname(form.getFirstname());
+        user.setLastname(form.getLastname());
+        user.setEmail(form.getEmail());
         return user;
     }
 
@@ -48,8 +52,8 @@ public class UserService extends AbstractService {
         return find(id).orElseThrow(() -> ClientErrorException.notFound("User not found"));
     }
 
-    public Optional<User> findByRef(String reference) {
-        return userDao.findByReference(reference);
+    public Optional<User> findByUsername(String username) {
+        return userDao.findByUsername(username);
     }
 
 }

@@ -6,19 +6,19 @@ import javax.validation.constraints.Size;
 public class LoginForm {
 
     @NotBlank
-    @Size(max = 256)
-    private String reference;
+    @Size(max = 128)
+    private String username;
 
     @NotBlank
     @Size(max = 20)
     private String password;
 
-    public String getReference() {
-        return reference;
+    public String getUsername() {
+        return username;
     }
 
-    public void setReference(String reference) {
-        this.reference = reference;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

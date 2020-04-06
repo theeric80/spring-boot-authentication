@@ -6,22 +6,28 @@ import javax.validation.constraints.Size;
 public class RegistrationForm {
 
     @NotBlank
-    @Size(max = 256)
-    private String reference;
+    @Size(max = 128)
+    private String username;
 
     @NotBlank
     @Size(max = 20)
     private String password;
 
     @Size(max = 128)
-    private String username = "";
+    private String firstname = "";
 
-    public String getReference() {
-        return reference;
+    @Size(max = 128)
+    private String lastname = "";
+
+    @Size(max = 256)
+    private String email = "";
+
+    public String getUsername() {
+        return username;
     }
 
-    public void setReference(String reference) {
-        this.reference = reference;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -32,12 +38,28 @@ public class RegistrationForm {
         this.password = password;
     }
 
-    public String getUsername() {
-        return username;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 }

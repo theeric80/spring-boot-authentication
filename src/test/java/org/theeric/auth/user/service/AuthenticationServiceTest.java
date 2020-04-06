@@ -56,14 +56,15 @@ public class AuthenticationServiceTest {
         when(userService.create(any())).then(i -> i.getArgument(0));
 
         final RegistrationForm form = new RegistrationForm();
-        form.setReference("test@gmail.com");
+        form.setUsername("test");
         form.setPassword("password");
+        form.setEmail("test@gmail.com");
 
         final User user = authenticationService.register(form);
 
         verify(userService, times(1)).create(any());
 
-        assertThat(user.getReference()).isEqualTo(form.getReference());
+        assertThat(user.getUsername()).isEqualTo(form.getUsername());
     }
 
     @Test
@@ -74,8 +75,9 @@ public class AuthenticationServiceTest {
         when(userService.create(any())).then(i -> i.getArgument(0));
 
         final RegistrationForm form = new RegistrationForm();
-        form.setReference("test@gmail.com");
+        form.setUsername("test");
         form.setPassword("password");
+        form.setEmail("test@gmail.com");
 
         final User user = authenticationService.register(form);
 
@@ -84,7 +86,7 @@ public class AuthenticationServiceTest {
 
     @Test
     public void whenUserExists_thenExceptionShouldBeThrown() {
-        when(userService.findByRef(any())).thenReturn(Optional.of(new User()));
+        when(userService.findByUsername(any())).thenReturn(Optional.of(new User()));
 
         final ClientErrorException e = Assertions.assertThrows(ClientErrorException.class, () -> {
 
@@ -106,11 +108,11 @@ public class AuthenticationServiceTest {
         session.setUser(user);
 
         when(passwordEncoder.matches("password", "hashed_password")).thenReturn(true);
-        when(userService.findByRef(any())).thenReturn(Optional.of(user));
+        when(userService.findByUsername(any())).thenReturn(Optional.of(user));
         when(userSessionDao.save(any())).thenReturn(session);
 
         final LoginForm form = new LoginForm();
-        form.setReference("test@gmail.com");
+        form.setUsername("test");
         form.setPassword("password");
 
         final AuthToken token = authenticationService.login(form);
@@ -132,7 +134,7 @@ public class AuthenticationServiceTest {
     @Test
     public void whenPasswordInvalid_thenExceptionShouldBeThrown() {
         when(passwordEncoder.matches(any(), any())).thenReturn(false);
-        when(userService.findByRef(any())).thenReturn(Optional.of(new User()));
+        when(userService.findByUsername(any())).thenReturn(Optional.of(new User()));
 
         final ClientErrorException e = Assertions.assertThrows(ClientErrorException.class, () -> {
 

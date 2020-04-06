@@ -10,20 +10,24 @@ import org.theeric.auth.core.model.IdentityIdEntity;
 @Table(name = "user")
 public class User extends IdentityIdEntity<Long> {
 
-    private String reference;
+    private String username;
 
     private String password;
 
-    private String username;
+    private String firstname;
+
+    private String lastname;
+
+    private String email;
 
     private UserRole role;
 
-    public String getReference() {
-        return reference;
+    public String getUsername() {
+        return username;
     }
 
-    public void setReference(String reference) {
-        this.reference = reference;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -34,12 +38,28 @@ public class User extends IdentityIdEntity<Long> {
         this.password = password;
     }
 
-    public String getUsername() {
-        return username;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Enumerated(EnumType.STRING)

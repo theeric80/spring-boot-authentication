@@ -8,6 +8,6 @@ import org.theeric.auth.user.model.User;
 @Transactional(readOnly = true)
 public interface UserDao extends JpaRepository<User, Long> {
 
-    Optional<User> findByReference(String reference);
+    Optional<User> findByUsername(String username);
 
 }

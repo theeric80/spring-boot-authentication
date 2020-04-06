@@ -42,7 +42,7 @@ public class AuthenticationService extends AbstractService {
 
     @Transactional
     public User register(RegistrationForm form) {
-        final Optional<User> user = userService.findByRef(form.getReference());
+        final Optional<User> user = userService.findByUsername(form.getUsername());
         if (user.isPresent()) {
             throw ClientErrorException.conflict("User already exists");
         } else {
@@ -53,7 +53,7 @@ public class AuthenticationService extends AbstractService {
 
     @Transactional
     public AuthToken login(LoginForm form) {
-        final User user = userService.findByRef(form.getReference()) //
+        final User user = userService.findByUsername(form.getUsername())
                 .orElseThrow(() -> ClientErrorException.notFound("User not found"));
 
         if (!checkpw(form.getPassword(), user.getPassword())) {
@@ -78,9 +78,11 @@ public class AuthenticationService extends AbstractService {
 
     private User buildNewUser(RegistrationForm form) {
         final User u = new User();
-        u.setReference(form.getReference());
-        u.setPassword(form.getPassword());
         u.setUsername(form.getUsername());
+        u.setPassword(form.getPassword());
+        u.setFirstname(form.getFirstname());
+        u.setLastname(form.getLastname());
+        u.setEmail(form.getEmail());
         return u;
     }
 
