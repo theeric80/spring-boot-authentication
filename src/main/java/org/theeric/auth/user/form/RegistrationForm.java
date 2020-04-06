@@ -2,15 +2,18 @@ package org.theeric.auth.user.form;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import io.swagger.annotations.ApiModelProperty;
 
 public class RegistrationForm {
 
     @NotBlank
     @Size(max = 128)
+    @ApiModelProperty(required = true)
     private String username;
 
     @NotBlank
     @Size(max = 20)
+    @ApiModelProperty(required = true)
     private String password;
 
     @Size(max = 128)
