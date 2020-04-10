@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.theeric.auth.core.web.exception.ClientErrorException;
 import org.theeric.auth.dto.AuthToken;
+import org.theeric.auth.test.UserMother;
 import org.theeric.auth.user.form.LoginForm;
 import org.theeric.auth.user.form.RegistrationForm;
 import org.theeric.auth.user.model.User;
@@ -48,6 +49,9 @@ public class AuthenticationServiceTest {
     @Autowired
     private AuthenticationService authenticationService;
 
+    private static final String USERNAME = "eric_tsai";
+    private static final String PASSWORD = "0000";
+
     @BeforeEach
     public void setUp() {}
 
@@ -55,30 +59,21 @@ public class AuthenticationServiceTest {
     public void whenRegisterOk_thenUserShouldBeCreated() {
         when(userService.create(any())).then(i -> i.getArgument(0));
 
-        final RegistrationForm form = new RegistrationForm();
-        form.setUsername("test");
-        form.setPassword("password");
-        form.setEmail("test@gmail.com");
-
+        final RegistrationForm form = UserMother.newRegistrationForm(USERNAME, PASSWORD);
         final User user = authenticationService.register(form);
 
         verify(userService, times(1)).create(any());
-
-        assertThat(user.getUsername()).isEqualTo(form.getUsername());
+        assertThat(user.getUsername()).isEqualTo(USERNAME);
     }
 
     @Test
     public void whenRegisterOk_thenPasswordShouldBeHashed() {
         final String expected = "hashed_password";
 
-        when(passwordEncoder.encode("password")).thenReturn(expected);
+        when(passwordEncoder.encode(PASSWORD)).thenReturn(expected);
         when(userService.create(any())).then(i -> i.getArgument(0));
 
-        final RegistrationForm form = new RegistrationForm();
-        form.setUsername("test");
-        form.setPassword("password");
-        form.setEmail("test@gmail.com");
-
+        final RegistrationForm form = UserMother.newRegistrationForm(USERNAME, PASSWORD);
         final User user = authenticationService.register(form);
 
         assertThat(user.getPassword()).isEqualTo(expected);
@@ -86,11 +81,13 @@ public class AuthenticationServiceTest {
 
     @Test
     public void whenUserExists_thenExceptionShouldBeThrown() {
-        when(userService.findByUsername(any())).thenReturn(Optional.of(new User()));
+        final User user = UserMother.newUser();
+
+        when(userService.findByUsername(any())).thenReturn(Optional.of(user));
 
         final ClientErrorException e = Assertions.assertThrows(ClientErrorException.class, () -> {
 
-            authenticationService.register(new RegistrationForm());
+            authenticationService.register(UserMother.newRegistrationForm());
         });
 
         assertThat(e.getStatus()).isEqualTo(HttpStatus.CONFLICT);
@@ -99,22 +96,15 @@ public class AuthenticationServiceTest {
     @Test
     public void whenLoginOk_thenTokenShouldBeReturned() {
         final String expected = "token";
+        final User user = UserMother.newUser(USERNAME);
+        final UserSession session = UserMother.newUserSession(user, expected);
 
-        final User user = new User();
         user.setPassword("hashed_password");
-
-        final UserSession session = new UserSession();
-        session.setToken(expected);
-        session.setUser(user);
-
-        when(passwordEncoder.matches("password", "hashed_password")).thenReturn(true);
-        when(userService.findByUsername(any())).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches(PASSWORD, "hashed_password")).thenReturn(true);
+        when(userService.findByUsername(USERNAME)).thenReturn(Optional.of(user));
         when(userSessionDao.save(any())).thenReturn(session);
 
-        final LoginForm form = new LoginForm();
-        form.setUsername("test");
-        form.setPassword("password");
-
+        final LoginForm form = UserMother.newLoginForm(USERNAME, PASSWORD);
         final AuthToken token = authenticationService.login(form);
 
         assertThat(token.getToken_type()).isEqualTo("Bearer");
@@ -125,7 +115,7 @@ public class AuthenticationServiceTest {
     public void whenUserNotExists_thenExceptionShouldBeThrown() {
         final ClientErrorException e = Assertions.assertThrows(ClientErrorException.class, () -> {
 
-            authenticationService.login(new LoginForm());
+            authenticationService.login(UserMother.newLoginForm());
         });
 
         assertThat(e.getStatus()).isEqualTo(HttpStatus.NOT_FOUND);
@@ -133,12 +123,14 @@ public class AuthenticationServiceTest {
 
     @Test
     public void whenPasswordInvalid_thenExceptionShouldBeThrown() {
+        final User user = UserMother.newUser();
+
         when(passwordEncoder.matches(any(), any())).thenReturn(false);
-        when(userService.findByUsername(any())).thenReturn(Optional.of(new User()));
+        when(userService.findByUsername(any())).thenReturn(Optional.of(user));
 
         final ClientErrorException e = Assertions.assertThrows(ClientErrorException.class, () -> {
 
-            authenticationService.login(new LoginForm());
+            authenticationService.login(UserMother.newLoginForm());
         });
 
         assertThat(e.getStatus()).isEqualTo(HttpStatus.UNAUTHORIZED);
