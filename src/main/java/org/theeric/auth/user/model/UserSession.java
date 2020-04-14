@@ -17,7 +17,7 @@ import org.theeric.auth.core.model.IdentityIdEntity;
 })
 @Entity
 @Table(name = "user_session")
-public class UserSession extends IdentityIdEntity<Long> {
+public class UserSession extends IdentityIdEntity {
 
     private String token;
 

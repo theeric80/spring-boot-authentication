@@ -1,5 +1,6 @@
 package org.theeric.auth.user.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -8,7 +9,7 @@ import org.theeric.auth.core.model.IdentityIdEntity;
 
 @Entity
 @Table(name = "user")
-public class User extends IdentityIdEntity<Long> {
+public class User extends IdentityIdEntity {
 
     private String username;
 
@@ -63,6 +64,7 @@ public class User extends IdentityIdEntity<Long> {
     }
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "enum")
     public UserRole getRole() {
         return role;
     }
