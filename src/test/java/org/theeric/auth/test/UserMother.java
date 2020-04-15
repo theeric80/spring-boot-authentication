@@ -1,5 +1,6 @@
 package org.theeric.auth.test;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -58,13 +59,19 @@ public class UserMother {
     }
 
     public static UserSession newUserSession(String token) {
-        return newUserSession(newUser(), token);
+        return newUserSession(newUser(), token, new Date(1577836800L));
     }
 
     public static UserSession newUserSession(User user, String token) {
+        return newUserSession(user, token, new Date(1577836800L));
+    }
+
+    public static UserSession newUserSession(User user, String token, Date createdAt) {
         final UserSession session = new UserSession();
+        session.setId(1L);
         session.setToken(token);
         session.setUser(user);
+        session.setCreatedAt(createdAt);
         return session;
     }
 
