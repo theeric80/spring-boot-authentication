@@ -1,11 +1,14 @@
 package org.theeric.auth.test;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 import org.theeric.auth.core.web.authentication.TokenDetails;
 import org.theeric.auth.core.web.authentication.TokenDetailsService;
 import org.theeric.auth.user.model.User;
@@ -14,6 +17,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Disabled
 public class AbstractControllerTest {
+
+    @Autowired
+    private WebApplicationContext wac;
 
     @Autowired
     protected MockMvc mvc;
@@ -30,6 +36,11 @@ public class AbstractControllerTest {
 
     @BeforeEach
     public void setUp() {
+        mvc = MockMvcBuilders //
+                .webAppContextSetup(wac) //
+                .apply(springSecurity()) //
+                .build();
+
         final TokenDetails token = UserMother.newTokenDetail(ACCESS_TOKEN, AUTHENTICATED_USER);
         when(tokenDetailsService.loadTokenByCredential(ACCESS_TOKEN)).thenReturn(token);
     }

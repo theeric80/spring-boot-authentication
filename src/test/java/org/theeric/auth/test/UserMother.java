@@ -8,6 +8,7 @@ import org.theeric.auth.core.web.authentication.TokenDetails;
 import org.theeric.auth.dto.AuthToken;
 import org.theeric.auth.user.form.LoginForm;
 import org.theeric.auth.user.form.RegistrationForm;
+import org.theeric.auth.user.form.UserForm;
 import org.theeric.auth.user.model.User;
 import org.theeric.auth.user.model.UserRole;
 import org.theeric.auth.user.model.UserSession;
@@ -86,6 +87,14 @@ public class UserMother {
         final LoginForm form = new LoginForm();
         form.setUsername(username);
         form.setPassword(password);
+        return form;
+    }
+
+    public static UserForm newUserForm() {
+        final UserForm form = new UserForm();
+        form.setFirstname("firstname_modified");
+        form.setLastname("lastname_modified");
+        form.setEmail(DEFAULT_USEREEMAIL);
         return form;
     }
 
