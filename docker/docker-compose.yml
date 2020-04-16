@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:5.7
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql/mysql.conf.d:/etc/mysql/mysql.conf.d
+      - ./mysql/data/mysql:/var/lib/mysql
+      - ./mysql/data/mysql-files:/var/lib/mysql-files
+      - ./mysql/data/mysql-keyring:/var/lib/mysql-keyring
+      - ./mysql/sql/baseline.sql:/docker-entrypoint-initdb.d/baseline.sql
