@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `auth`.`user_session` (
+CREATE TABLE IF NOT EXISTS `user_session` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `token` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` int(11) unsigned NOT NULL,

@@ -40,6 +40,10 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -90,6 +94,18 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <configuration>
+                    <url>jdbc:mysql://127.0.0.1:3306/auth</url>
+                    <user>root</user>
+                    <password>wrRD6X2QTf</password>
+                    <schemas>
+						<schema>auth</schema>
+                    </schemas>
+                </configuration>
             </plugin>
         </plugins>
     </build>

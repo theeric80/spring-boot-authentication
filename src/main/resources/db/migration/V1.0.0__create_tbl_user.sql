@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `auth`.`user` (
+CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `role` enum('ROLE_ADMIN','ROLE_USER') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'ROLE_USER',
   `username` varchar(128) COLLATE utf8mb4_persian_ci NOT NULL,
